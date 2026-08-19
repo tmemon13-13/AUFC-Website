@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alexandria United FC</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ── HOME: Hero ── */
+    .hero {
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Swap this background-image URL with your actual hero photo */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('images/hero.jpg');
+      background-size: cover;
+      background-position: center top;
+      opacity: 0.35;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(10,22,40,0.95) 0%,
+        rgba(10,22,40,0.6) 50%,
+        rgba(10,22,40,0.4) 100%
+      );
+    }
+    .hero .container {
+      position: relative;
+      z-index: 1;
+      padding-top: 7rem;
+      padding-bottom: 4rem;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(242,169,0,0.12);
+      border: 1px solid rgba(242,169,0,0.3);
+      border-radius: 100px;
+      padding: 0.4rem 1rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+    .hero h1 {
+      color: var(--white);
+      max-width: 780px;
+      line-height: 0.95;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 .gold { color: var(--gold); }
+    .hero-sub {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.65);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 600;
+      z-index: 1;
+      animation: bounce 2s infinite;
+    }
+    .hero-scroll svg { opacity: 0.4; }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── Stat Bar ── */
+    .stat-bar {
+      background: var(--gold);
+      padding: 2rem 0;
+    }
+    .stat-bar-inner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      text-align: center;
+    }
+    .stat-item { padding: 0.5rem; }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      color: var(--navy);
+      line-height: 1;
+      letter-spacing: 0.04em;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(10,22,40,0.6);
+      margin-top: 0.25rem;
+    }
+    .stat-divider {
+      width: 1px;
+      background: rgba(10,22,40,0.15);
+      align-self: stretch;
+      margin: 0.5rem 0;
+    }
+
+    /* ── About teaser ── */
+    .about-teaser {
+      background: var(--off-white);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .about-img {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+    }
+    .about-img .photo-placeholder {
+      width: 100%; height: 100%;
+    }
+    .about-content .section-label { margin-bottom: 0.5rem; }
+    .about-content h2 { color: var(--navy); margin-bottom: 1.25rem; }
+    .about-content p { margin-bottom: 1.5rem; }
+    .about-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+    .tag {
+      padding: 0.35rem 1rem;
+      background: rgba(242,169,0,0.1);
+      border: 1px solid rgba(242,169,0,0.25);
+      border-radius: 100px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--gold-dark);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Match Spotlight ── */
+    .match-section { background: var(--navy); }
+    .match-section .section-header h2 { color: var(--white); }
+    .match-section .section-header p { color: rgba(255,255,255,0.5); }
+    .matches-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .match-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      transition: all var(--transition);
+    }
+    .match-card:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(242,169,0,0.3);
+      transform: translateY(-4px);
+    }
+    .match-card.featured { border-color: rgba(242,169,0,0.4); background: rgba(242,169,0,0.05); }
+    .match-date {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .match-teams {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .match-team { text-align: center; flex: 1; }
+    .match-team-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      color: var(--white);
+    }
+    .match-team-sub {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.35);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .match-vs {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.1em;
+    }
+    .match-score {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      line-height: 1;
+    }
+    .match-meta {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .match-meta::before {
+      content: '';
+      display: inline-block;
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+    .match-result {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .result-w { background: rgba(0,200,100,0.15); color: #00C864; }
+    .result-l { background: rgba(255,60,60,0.15); color: #FF3C3C; }
+    .result-d { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); }
+
+    /* ── News ── */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .news-card { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); background: white; transition: all var(--transition); }
+    .news-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .news-img { aspect-ratio: 16/9; }
+    .news-img .photo-placeholder { width: 100%; height: 100%; }
+    .news-body { padding: 1.5rem; }
+    .news-tag {
+      display: inline-block;
+      padding: 0.2rem 0.7rem;
+      background: rgba(242,169,0,0.1);
+      border-radius: 100px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      margin-bottom: 0.75rem;
+    }
+    .news-card h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 0;
+      line-height: 1.4;
+      margin-bottom: 0.5rem;
+    }
+    .news-card p { font-size: 0.875rem; color: var(--gray-mid); }
+    .news-meta { display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem; font-size: 0.75rem; color: var(--gray-mid); }
+    .news-meta span { color: var(--gray-mid); }
+
+    /* ── CTA Strip ── */
+    .cta-strip { background: var(--navy); }
+    .cta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .cta-block {
+      background: var(--navy-mid);
+      padding: 3rem 2.5rem;
+      text-align: center;
+      transition: background var(--transition);
+    }
+    .cta-block:hover { background: var(--navy-light); }
+    .cta-block .cta-icon {
+      width: 60px; height: 60px;
+      background: rgba(242,169,0,0.1);
+      border: 1px solid rgba(242,169,0,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 1.5rem;
+    }
+    .cta-block h3 { color: var(--white); font-size: 1.6rem; margin-bottom: 0.75rem; }
+    .cta-block p { color: rgba(255,255,255,0.45); font-size: 0.875rem; margin-bottom: 1.75rem; }
+
+    /* ── Sponsor teaser ── */
+    .sponsor-teaser { background: var(--off-white); }
+    .sponsor-logos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+      margin-top: 2rem;
+    }
+    .sponsor-logo-box {
+      width: 160px; height: 70px;
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: var(--gray-mid);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 600;
+      transition: all var(--transition);
+    }
+    .sponsor-logo-box:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .matches-grid { grid-template-columns: 1fr; }
+      .news-grid { grid-template-columns: 1fr 1fr; }
+      .cta-grid { grid-template-columns: 1fr; }
+      .stat-bar-inner { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .news-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: clamp(2.8rem, 11vw, 5rem); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-mark"><span>AUFC</span></div>
+      <div class="logo-text">
+        <strong>Alexandria United</strong>
+        <small>Football Club</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="about.html">About</a>
+      <a href="staff.html">Staff</a>
+      <a href="sponsors.html">Sponsors</a>
+      <a href="merch.html">Merch</a>
+      <a href="sponsors.html" class="nav-cta">Become a Sponsor</a>
+    </div>
+    <button class="nav-hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="staff.html">Staff</a>
+  <a href="sponsors.html">Sponsors</a>
+  <a href="merch.html">Merch</a>
+  <a href="sponsors.html">Become a Sponsor</a>
+</div>
+
+<!-- ══ HERO ══════════════════════════════════════════════ -->
+<section class="hero">
+  <!-- Replace images/hero.jpg with your actual team photo -->
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="container">
+    <div class="hero-badge">Alexandria, Virginia</div>
+    <h1>Where Alexandria<br><span class="gold">Plays.</span></h1>
+    <p class="hero-sub">Alexandria United FC is more than a soccer club — we're a community of competitors, creatives, and people who believe the beautiful game belongs to everyone.</p>
+    <div class="hero-actions">
+      <a href="about.html" class="btn btn-primary">Our Story</a>
+      <a href="sponsors.html" class="btn btn-outline">Become a Sponsor</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    Scroll
+  </div>
+</section>
+
+<!-- ══ STAT BAR ═══════════════════════════════════════════ -->
+<div class="stat-bar">
+  <div class="container">
+    <div class="stat-bar-inner">
+      <div class="stat-item">
+        <div class="stat-num">2022</div>
+        <div class="stat-label">Founded</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">25+</div>
+        <div class="stat-label">Players</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Community</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">NOVA</div>
+        <div class="stat-label">Region</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ABOUT TEASER ══════════════════════════════════════ -->
+<section class="about-teaser">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img">
+        <!-- Replace with your team photo: <img src="images/team.jpg" alt="AUFC Team"> -->
+        <div class="photo-placeholder" style="height:100%">
+          <svg width="48" height="48" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <span>Team Photo</span>
+        </div>
+      </div>
+      <div class="about-content">
+        <span class="section-label">Who We Are</span>
+        <h2>Built in<br>Alexandria.</h2>
+        <p>Alexandria United FC was founded on a simple belief: that Northern Virginia deserves a soccer club that reflects its energy, diversity, and ambition. From pickup to competitive, we represent every player who has ever laced up in the DMV.</p>
+        <div class="about-tags">
+          <span class="tag">Community First</span>
+          <span class="tag">Competitive Spirit</span>
+          <span class="tag">Northern Virginia</span>
+          <span class="tag">The Beautiful Game</span>
+        </div>
+        <a href="about.html" class="btn btn-navy">Read Our Story</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MATCH RESULTS ══════════════════════════════════════ -->
+<section class="match-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">On the Pitch</span>
+      <h2>Recent Results</h2>
+      <p style="color:rgba(255,255,255,0.5)">Keeping up with every match, every moment.</p>
+    </div>
+    <div class="matches-grid">
+      <div class="match-card featured">
+        <div class="match-date">Latest Match</div>
+        <span class="match-result result-w">Win</span>
+        <div class="match-teams">
+          <div class="match-team">
+            <div class="match-team-name">AUFC</div>
+            <div class="match-team-sub">Alexandria United</div>
+          </div>
+          <div>
+            <div class="match-score">3–1</div>
+          </div>
+          <div class="match-team">
+            <div class="match-team-name">Rival FC</div>
+            <div class="match-team-sub">Opponent</div>
+          </div>
+        </div>
+        <div class="match-meta">Results updated each match week</div>
+      </div>
+      <div class="match-card">
+        <div class="match-date">Previous Match</div>
+        <span class="match-result result-d">Draw</span>
+        <div class="match-teams">
+          <div class="match-team">
+            <div class="match-team-name">AUFC</div>
+            <div class="match-team-sub">Alexandria United</div>
+          </div>
+          <div>
+            <div class="match-score">2–2</div>
+          </div>
+          <div class="match-team">
+            <div class="match-team-name">City SC</div>
+            <div class="match-team-sub">Opponent</div>
+          </div>
+        </div>
+        <div class="match-meta">Results updated each match week</div>
+      </div>
+      <div class="match-card">
+        <div class="match-date">Previous Match</div>
+        <span class="match-result result-w">Win</span>
+        <div class="match-teams">
+          <div class="match-team">
+            <div class="match-team-name">AUFC</div>
+            <div class="match-team-sub">Alexandria United</div>
+          </div>
+          <div>
+            <div class="match-score">2–0</div>
+          </div>
+          <div class="match-team">
+            <div class="match-team-name">United SC</div>
+            <div class="match-team-sub">Opponent</div>
+          </div>
+        </div>
+        <div class="match-meta">Results updated each match week</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NEWS / HIGHLIGHTS ══════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Club News</span>
+      <h2>Latest Highlights</h2>
+      <p>Stories, updates, and moments from Alexandria United FC.</p>
+    </div>
+    <div class="news-grid">
+      <div class="news-card">
+        <div class="news-img">
+          <!-- Replace with actual image -->
+          <div class="photo-placeholder" style="height:200px">
+            <svg width="36" height="36" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          </div>
+        </div>
+        <div class="news-body">
+          <span class="news-tag">Season Update</span>
+          <h4>AUFC Opens the Season with a Statement Win</h4>
+          <p>The boys showed up ready. A dominant performance from kickoff set the tone for what promises to be a standout season.</p>
+          <div class="news-meta"><span>Aug 2026</span></div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-img">
+          <div class="photo-placeholder" style="height:200px">
+            <svg width="36" height="36" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          </div>
+        </div>
+        <div class="news-body">
+          <span class="news-tag">Community</span>
+          <h4>AUFC Gives Back: Youth Clinic at Hammond Middle School</h4>
+          <p>Our coaching staff ran a free youth soccer clinic, bringing the love of the game to the next generation of Alexandria players.</p>
+          <div class="news-meta"><span>Aug 2026</span></div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-img">
+          <div class="photo-placeholder" style="height:200px">
+            <svg width="36" height="36" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          </div>
+        </div>
+        <div class="news-body">
+          <span class="news-tag">Kits</span>
+          <h4>New Kits Dropping Soon — Here's Your First Look</h4>
+          <p>We partnered with our design team to create something special. The 2026 kits are clean, sharp, and 100% AUFC.</p>
+          <div class="news-meta"><span>Jul 2026</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA STRIP ══════════════════════════════════════════ -->
+<section class="cta-strip">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Get Involved</span>
+      <h2 style="color:white">Join the Movement</h2>
+      <p style="color:rgba(255,255,255,0.5)">Whether you play, sponsor, or just want to rep the crest — there's a place for you with AUFC.</p>
+    </div>
+    <div class="cta-grid">
+      <div class="cta-block">
+        <div class="cta-icon">⚽</div>
+        <h3>Join the Club</h3>
+        <p>Interested in playing with AUFC? Reach out and find out how to become part of the squad.</p>
+        <a href="mailto:info@alexandriaunited.fc" class="btn btn-gold-outline">Get in Touch</a>
+      </div>
+      <div class="cta-block">
+        <div class="cta-icon">🤝</div>
+        <h3>Sponsor AUFC</h3>
+        <p>Grow your brand by partnering with one of Northern Virginia's most exciting soccer clubs.</p>
+        <a href="sponsors.html" class="btn btn-gold-outline">View Packages</a>
+      </div>
+      <div class="cta-block">
+        <div class="cta-icon">👕</div>
+        <h3>Shop Merch</h3>
+        <p>Rep the crest. Browse our latest jerseys, hoodies, and accessories and show your AUFC pride.</p>
+        <a href="merch.html" class="btn btn-gold-outline">Shop Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SPONSOR TEASER ═════════════════════════════════════ -->
+<section class="sponsor-teaser">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Our Partners</span>
+      <h2>Proud Sponsors</h2>
+      <p>Thank you to the businesses that make Alexandria United FC possible.</p>
+    </div>
+    <div class="sponsor-logos">
+      <div class="sponsor-logo-box">Sponsor Logo</div>
+      <div class="sponsor-logo-box">Sponsor Logo</div>
+      <div class="sponsor-logo-box">Sponsor Logo</div>
+      <div class="sponsor-logo-box">Sponsor Logo</div>
+      <div class="sponsor-logo-box">Sponsor Logo</div>
+    </div>
+    <div style="text-align:center; margin-top:2.5rem;">
+      <a href="sponsors.html" class="btn btn-navy">Become a Sponsor</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NEWSLETTER ═════════════════════════════════════════ -->
+<div class="newsletter-strip">
+  <div class="container">
+    <div class="newsletter-inner">
+      <div>
+        <h3>Stay in the Loop</h3>
+        <p>Match results, news, and club updates — straight to your inbox.</p>
+      </div>
+      <form class="newsletter-form" onsubmit="return false;">
+        <input type="email" placeholder="Your email address">
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ═════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo-mark"><span>AUFC</span></div>
+        <p>Alexandria United FC — representing the DMV with pride, passion, and a relentless love for the beautiful game.</p>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/alexandriaunited.fc/" target="_blank" title="Instagram">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a href="#" title="Twitter/X">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#" title="YouTube">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="staff.html">Meet the Staff</a></li>
+          <li><a href="sponsors.html">Sponsors</a></li>
+          <li><a href="merch.html">Merch</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Get Involved</h5>
+        <ul>
+          <li><a href="sponsors.html">Become a Sponsor</a></li>
+          <li><a href="merch.html">Shop Merch</a></li>
+          <li><a href="mailto:info@alexandriaunited.fc">Join the Club</a></li>
+          <li><a href="mailto:taylor.memon@gmail.com">Media Inquiries</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <div class="contact-item">
+          <span class="ci-icon">✉</span>
+          <span>info@alexandriaunited.fc</span>
+        </div>
+        <div class="contact-item">
+          <span class="ci-icon">📍</span>
+          <span>Alexandria, Virginia<br>Northern Virginia</span>
+        </div>
+        <div class="contact-item">
+          <span class="ci-icon">📸</span>
+          <span><a href="https://www.instagram.com/alexandriaunited.fc/" target="_blank" style="color:var(--gold)">@alexandriaunited.fc</a></span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Alexandria United FC. All rights reserved.</span>
+      <span>Made with passion in Alexandria, VA</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

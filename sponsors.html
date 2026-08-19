@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sponsors — Alexandria United FC</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ── Value props ── */
+    .value-props { background: var(--off-white); }
+    .props-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .prop-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: all var(--transition);
+    }
+    .prop-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .prop-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .prop-card h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 0;
+      margin-bottom: 0.5rem;
+    }
+    .prop-card p { font-size: 0.875rem; }
+
+    /* ── Current sponsors ── */
+    .current-sponsors { background: var(--white); }
+    .sponsors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .sponsor-tile {
+      aspect-ratio: 2/1;
+      background: var(--off-white);
+      border: 1px solid var(--gray-light);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--gray-mid);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 600;
+      transition: all var(--transition);
+      cursor: default;
+    }
+    .sponsor-tile:hover { border-color: var(--gold); box-shadow: var(--shadow); }
+    .sponsor-tile img { max-width: 70%; max-height: 60%; object-fit: contain; filter: grayscale(100%); opacity: 0.7; transition: all var(--transition); }
+    .sponsor-tile:hover img { filter: grayscale(0%); opacity: 1; }
+
+    /* ── Tiers ── */
+    .tiers-section { background: var(--navy); }
+    .tiers-section .section-header h2 { color: var(--white); }
+    .tiers-section .section-header p { color: rgba(255,255,255,0.5); }
+    .tiers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .tier-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all var(--transition);
+    }
+    .tier-card:hover { transform: translateY(-4px); border-color: rgba(242,169,0,0.3); }
+    .tier-card.featured {
+      border: 2px solid var(--gold);
+      background: rgba(242,169,0,0.04);
+      position: relative;
+    }
+    .tier-badge {
+      position: absolute;
+      top: -1px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.3rem 1rem;
+      border-radius: 0 0 6px 6px;
+    }
+    .tier-header {
+      padding: 2rem 2rem 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .tier-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      margin-bottom: 0.25rem;
+    }
+    .tier-price {
+      font-size: 0.85rem;
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .tier-body { padding: 1.75rem 2rem; }
+    .tier-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 0.9rem;
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.65);
+    }
+    .tier-feature::before {
+      content: '✓';
+      color: var(--gold);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .tier-footer {
+      padding: 0 2rem 2rem;
+    }
+    .tier-footer .btn { width: 100%; justify-content: center; }
+
+    /* ── Inquiry form ── */
+    .inquiry-section { background: var(--off-white); }
+    .inquiry-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .inquiry-content h2 { color: var(--navy); margin-bottom: 1rem; }
+    .inquiry-content p { margin-bottom: 1.5rem; }
+    .contact-bullets { display: flex; flex-direction: column; gap: 0.75rem; }
+    .contact-bullet {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--gray-dark);
+    }
+    .contact-bullet .cb-icon {
+      width: 32px; height: 32px;
+      background: rgba(242,169,0,0.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .inquiry-form {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-lg);
+    }
+    .inquiry-form h3 { color: var(--navy); font-size: 1.5rem; margin-bottom: 1.75rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-bottom: 0.4rem;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1.5px solid var(--gray-light);
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--white);
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--gold); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-submit {
+      width: 100%;
+      padding: 1rem;
+      background: var(--navy);
+      color: white;
+      border-radius: var(--radius);
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all var(--transition);
+    }
+    .form-submit:hover { background: var(--navy-mid); transform: translateY(-2px); box-shadow: var(--shadow); }
+
+    @media (max-width: 900px) {
+      .props-grid { grid-template-columns: 1fr 1fr; }
+      .tiers-grid { grid-template-columns: 1fr; }
+      .inquiry-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .props-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-mark"><span>AUFC</span></div>
+      <div class="logo-text">
+        <strong>Alexandria United</strong>
+        <small>Football Club</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="staff.html">Staff</a>
+      <a href="sponsors.html" class="active">Sponsors</a>
+      <a href="merch.html">Merch</a>
+      <a href="#inquiry" class="nav-cta">Become a Sponsor</a>
+    </div>
+    <button class="nav-hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="staff.html">Staff</a>
+  <a href="sponsors.html">Sponsors</a>
+  <a href="merch.html">Merch</a>
+  <a href="#inquiry">Become a Sponsor</a>
+</div>
+
+<!-- ══ PAGE HERO ══════════════════════════════════════════ -->
+<div class="page-hero">
+  <div class="container">
+    <span class="section-label">Partner With Us</span>
+    <h1>Sponsor AUFC</h1>
+    <p>Align your brand with one of Northern Virginia's most exciting and community-driven soccer clubs. Real exposure, real people, real impact.</p>
+    <div class="gold-line"></div>
+    <div style="margin-top:2rem;">
+      <a href="#inquiry" class="btn btn-primary">Inquire Now</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ VALUE PROPS ════════════════════════════════════════ -->
+<section class="value-props">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Why Sponsor AUFC</span>
+      <h2>More Than a Logo Placement</h2>
+      <p>Sponsoring Alexandria United FC means genuine partnership with a growing, engaged community.</p>
+    </div>
+    <div class="props-grid">
+      <div class="prop-card">
+        <div class="prop-icon">📍</div>
+        <h4>Hyper-Local Reach</h4>
+        <p>Get in front of the Alexandria and Northern Virginia community through match-day visibility, social media, and word-of-mouth from a passionate fanbase.</p>
+      </div>
+      <div class="prop-card">
+        <div class="prop-icon">📱</div>
+        <h4>Digital &amp; Social Presence</h4>
+        <p>Your brand featured across AUFC's Instagram and digital channels — reaching an engaged audience that cares about what we represent.</p>
+      </div>
+      <div class="prop-card">
+        <div class="prop-icon">🤝</div>
+        <h4>Real Community Impact</h4>
+        <p>Sponsoring AUFC isn't just advertising — it's investing in a club that gives back, develops athletes, and makes Alexandria a better place.</p>
+      </div>
+      <div class="prop-card">
+        <div class="prop-icon">⚽</div>
+        <h4>Match-Day Exposure</h4>
+        <p>Your logo on kit, banners, and match materials seen by players, families, and fans at every game. Live, in-person brand moments that stick.</p>
+      </div>
+      <div class="prop-card">
+        <div class="prop-icon">🎯</div>
+        <h4>Targeted Demographics</h4>
+        <p>Reach active, community-minded 18–45 year olds with disposable income and strong local loyalty — an audience that responds to authentic partnerships.</p>
+      </div>
+      <div class="prop-card">
+        <div class="prop-icon">📈</div>
+        <h4>Growing Club, Growing Reach</h4>
+        <p>AUFC is on an upward trajectory. Get in now and grow with us — as the club scales, so does the value of your partnership.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CURRENT SPONSORS ═══════════════════════════════════ -->
+<section class="current-sponsors">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Our Partners</span>
+      <h2>Current Sponsors</h2>
+      <p>Thank you to the businesses that make Alexandria United FC possible.</p>
+    </div>
+    <div class="sponsors-grid">
+      <!-- Replace each tile with an actual sponsor logo:
+           <div class="sponsor-tile"><img src="images/sponsors/sponsor-name.png" alt="Sponsor Name"></div> -->
+      <div class="sponsor-tile">Sponsor Logo</div>
+      <div class="sponsor-tile">Sponsor Logo</div>
+      <div class="sponsor-tile">Sponsor Logo</div>
+      <div class="sponsor-tile">Sponsor Logo</div>
+      <div class="sponsor-tile">Sponsor Logo</div>
+    </div>
+    <p style="text-align:center; margin-top:2rem; font-size:0.85rem; color:var(--gray-mid);">
+      Interested in having your logo here? <a href="#inquiry" style="color:var(--gold); font-weight:600;">Reach out below.</a>
+    </p>
+  </div>
+</section>
+
+<!-- ══ SPONSORSHIP TIERS ═══════════════════════════════════ -->
+<section class="tiers-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Sponsorship Packages</span>
+      <h2>Choose Your Tier</h2>
+      <p style="color:rgba(255,255,255,0.5)">Every tier is customizable. Contact us to build the right package for your business.</p>
+    </div>
+    <div class="tiers-grid">
+
+      <div class="tier-card">
+        <div class="tier-header">
+          <div class="tier-name">Bronze</div>
+          <div class="tier-price">Entry-Level Partnership</div>
+        </div>
+        <div class="tier-body">
+          <div class="tier-feature">Logo on AUFC social media sponsor post</div>
+          <div class="tier-feature">Logo on AUFC website sponsors page</div>
+          <div class="tier-feature">Shoutout on match-day Instagram story</div>
+          <div class="tier-feature">Certificate of partnership</div>
+        </div>
+        <div class="tier-footer">
+          <a href="#inquiry" class="btn btn-gold-outline">Inquire</a>
+        </div>
+      </div>
+
+      <div class="tier-card featured">
+        <div class="tier-badge">Most Popular</div>
+        <div class="tier-header">
+          <div class="tier-name">Gold</div>
+          <div class="tier-price">Core Partnership</div>
+        </div>
+        <div class="tier-body">
+          <div class="tier-feature">Everything in Bronze</div>
+          <div class="tier-feature">Logo on match-day kit (sleeve or shorts)</div>
+          <div class="tier-feature">Pitch-side banner at home matches</div>
+          <div class="tier-feature">Featured in monthly AUFC newsletter</div>
+          <div class="tier-feature">Dedicated social media feature post</div>
+          <div class="tier-feature">Logo in all digital match graphics</div>
+        </div>
+        <div class="tier-footer">
+          <a href="#inquiry" class="btn btn-primary">Inquire</a>
+        </div>
+      </div>
+
+      <div class="tier-card">
+        <div class="tier-header">
+          <div class="tier-name">Platinum</div>
+          <div class="tier-price">Premier Partnership</div>
+        </div>
+        <div class="tier-body">
+          <div class="tier-feature">Everything in Gold</div>
+          <div class="tier-feature">Primary kit sponsor placement (chest or back)</div>
+          <div class="tier-feature">Named match sponsorship (e.g. "Presented by X")</div>
+          <div class="tier-feature">Co-branded content collaboration</div>
+          <div class="tier-feature">Access to match-day hospitality</div>
+          <div class="tier-feature">Quarterly business meeting with AUFC leadership</div>
+          <div class="tier-feature">Custom partnership terms available</div>
+        </div>
+        <div class="tier-footer">
+          <a href="#inquiry" class="btn btn-gold-outline">Inquire</a>
+        </div>
+      </div>
+
+    </div>
+    <p style="text-align:center; margin-top:2.5rem; font-size:0.85rem; color:rgba(255,255,255,0.4);">
+      All packages are flexible. We'll work with you to create something that fits your budget and goals.
+    </p>
+  </div>
+</section>
+
+<!-- ══ INQUIRY FORM ════════════════════════════════════════ -->
+<section class="inquiry-section" id="inquiry">
+  <div class="container">
+    <div class="inquiry-grid">
+      <div class="inquiry-content">
+        <span class="section-label">Let's Talk</span>
+        <h2>Ready to Partner with AUFC?</h2>
+        <p>Fill out the form and Taylor Memon, our Director of Sponsorship and Communications, will get back to you within 48 hours to discuss the right partnership for your business.</p>
+        <div class="contact-bullets">
+          <div class="contact-bullet">
+            <div class="cb-icon">✉</div>
+            <span>taylor.memon@gmail.com</span>
+          </div>
+          <div class="contact-bullet">
+            <div class="cb-icon">📸</div>
+            <span><a href="https://www.instagram.com/alexandriaunited.fc/" target="_blank" style="color:var(--gold-dark)">@alexandriaunited.fc</a></span>
+          </div>
+          <div class="contact-bullet">
+            <div class="cb-icon">📍</div>
+            <span>Alexandria, Virginia — Northern Virginia</span>
+          </div>
+        </div>
+      </div>
+      <div class="inquiry-form">
+        <h3>Sponsorship Inquiry</h3>
+        <form onsubmit="return false;">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" placeholder="First name">
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" placeholder="Last name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Business / Organization</label>
+            <input type="text" placeholder="Your business name">
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="your@email.com">
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="(555) 000-0000">
+          </div>
+          <div class="form-group">
+            <label>Sponsorship Tier of Interest</label>
+            <select>
+              <option value="">Select a tier...</option>
+              <option value="bronze">Bronze — Entry-Level</option>
+              <option value="gold">Gold — Core Partnership</option>
+              <option value="platinum">Platinum — Premier Partnership</option>
+              <option value="custom">Custom / Not Sure Yet</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tell Us About Your Business</label>
+            <textarea placeholder="A brief description of your business and why you'd like to sponsor AUFC..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">Send Inquiry</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NEWSLETTER ═════════════════════════════════════════ -->
+<div class="newsletter-strip">
+  <div class="container">
+    <div class="newsletter-inner">
+      <div>
+        <h3>Stay in the Loop</h3>
+        <p>Match results, news, and club updates — straight to your inbox.</p>
+      </div>
+      <form class="newsletter-form" onsubmit="return false;">
+        <input type="email" placeholder="Your email address">
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ═════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo-mark"><span>AUFC</span></div>
+        <p>Alexandria United FC — representing the DMV with pride, passion, and a relentless love for the beautiful game.</p>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/alexandriaunited.fc/" target="_blank" title="Instagram">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a href="#" title="Twitter/X">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#" title="YouTube">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="staff.html">Meet the Staff</a></li>
+          <li><a href="sponsors.html">Sponsors</a></li>
+          <li><a href="merch.html">Merch</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Get Involved</h5>
+        <ul>
+          <li><a href="sponsors.html">Become a Sponsor</a></li>
+          <li><a href="merch.html">Shop Merch</a></li>
+          <li><a href="mailto:info@alexandriaunited.fc">Join the Club</a></li>
+          <li><a href="mailto:taylor.memon@gmail.com">Media Inquiries</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <div class="contact-item">
+          <span class="ci-icon">✉</span>
+          <span>info@alexandriaunited.fc</span>
+        </div>
+        <div class="contact-item">
+          <span class="ci-icon">📍</span>
+          <span>Alexandria, Virginia<br>Northern Virginia</span>
+        </div>
+        <div class="contact-item">
+          <span class="ci-icon">📸</span>
+          <span><a href="https://www.instagram.com/alexandriaunited.fc/" target="_blank" style="color:var(--gold)">@alexandriaunited.fc</a></span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Alexandria United FC. All rights reserved.</span>
+      <span>Made with passion in Alexandria, VA</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
