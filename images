@@ -1,6 +1,7 @@
-git mv _R2A8883.jpg images/_R2A8883.jpg
-git mv _R2A8917.jpg images/_R2A8917.jpg
-git mv _R2A9013.jpg images/_R2A9013.jpg
-git mv _R2A9135.jpg images/_R2A9135.jpg
-git commit -m "Move images into images folder"
+cd $(find ~ -name "AUFC-Website" -type d 2>/dev/null | head -1) && \
+git mv _R2A8883.jpg images/_R2A8883.jpg && \
+git mv _R2A8917.jpg images/_R2A8917.jpg && \
+git mv _R2A9013.jpg images/_R2A9013.jpg && \
+git mv _R2A9135.jpg images/_R2A9135.jpg && \
+git commit -m "Move images into images folder" && \
 git push
